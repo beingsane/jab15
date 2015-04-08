@@ -5,20 +5,25 @@
             <option name="componentNamespace">Akeeba\JAB15</option>
             <option name="factoryClass">FOF30\Factory\MagicFactory</option>
         </container>
+
         <dispatcher>
             <option name="defaultView">conferences</option>
         </dispatcher>
+
+        <model name="*">
+            <behaviors merge="1">Filters</behaviors>
+        </model>
     </common>
 
     <frontend>
         <model name="Conferences">
-            <behaviors>Enabled</behaviors>
+            <behaviors merge="1">Enabled</behaviors>
         </model>
         <model name="Sessions">
-            <behaviors>Enabled</behaviors>
+            <behaviors merge="1">Enabled</behaviors>
         </model>
         <model name="Attendances">
-            <behaviors>Own</behaviors>
+            <behaviors merge="1">Own</behaviors>
         </model>
     </frontend>
 </fof>
