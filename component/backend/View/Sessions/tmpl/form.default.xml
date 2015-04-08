@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form type="browse" show_header="1" show_filters="1" show_pagination="1" norows_placeholder="COM_JAB15_COMMON_NORECORDS">
+  <headerset>
+    <header name="jab15_session_id" type="RowSelect" label="COM_JAB15_SESSIONS_JAB15_SESSION_ID_LBL" sortable="true" tdwith="20"/>
+    <header name="title" type="Searchable" label="COM_JAB15_SESSIONS_TITLE_LBL"/>
+    <header name="jab15_conference_id" type="Model" model="conferences" key_field="jab15_conference_id" value_field="title" label="COM_JAB15_SESSIONS_JAB15_CONFERENCE_ID_LBL" sortable="true"/>
+    <header name="user_id" type="Searchable" label="COM_JAB15_SESSIONS_USER_ID_LBL" sortable="true"/>
+    <header name="room" type="Field" label="COM_JAB15_SESSIONS_ROOM_LBL" sortable="true"/>
+    <header name="start_datetime" type="Field" label="COM_JAB15_SESSIONS_START_DATETIME_LBL" sortable="true"/>
+    <header name="end_datetime" type="Field" label="COM_JAB15_SESSIONS_END_DATETIME_LBL" sortable="true"/>
+    <header name="enabled" type="Published" label="COM_JAB15_SESSIONS_ENABLED_LBL" sortable="true"/>
+  </headerset>
+  <fieldset name="items">
+    <field name="jab15_session_id" type="SelectRow" label="COM_JAB15_SESSIONS_JAB15_SESSION_ID_LBL"/>
+    <field name="title" type="Sortable" label="COM_JAB15_SESSIONS_TITLE_LBL" url="index.php?option=com_jab15&amp;view=Session&amp;id=[ITEM:ID]"/>
+    <field name="jab15_conference_id" type="Model" model="conferences" key_field="jab15_conference_id" value_field="title" label="COM_JAB15_SESSIONS_JAB15_CONFERENCE_ID_LBL"/>
+    <field name="user_id" type="User" label="COM_JAB15_SESSIONS_USER_ID_LBL"/>
+    <field name="room" type="Text" label="COM_JAB15_SESSIONS_ROOM_LBL"/>
+    <field name="start_datetime" type="Calendar" label="COM_JAB15_SESSIONS_START_DATETIME_LBL"/>
+    <field name="end_datetime" type="Calendar" label="COM_JAB15_SESSIONS_END_DATETIME_LBL"/>
+    <field name="enabled" type="Actions" label="COM_JAB15_SESSIONS_ENABLED_LBL"/>
+  </fieldset>
+</form>

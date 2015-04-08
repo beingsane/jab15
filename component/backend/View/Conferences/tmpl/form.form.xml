@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form validate="true">
+
+    <fieldset name="basic" label="COM_JAB15_CONFERENCES__GROUP_BASIC" class="span6">
+
+        <field name="title" type="Text" label="COM_JAB15_CONFERENCES_TITLE_LBL" description="COM_JAB15_CONFERENCES_TITLE_DESC"/>
+        <field name="slug" type="Text" label="COM_JAB15_CONFERENCES_SLUG_LBL" description="COM_JAB15_CONFERENCES_SLUG_DESC"/>
+        <field name="start_date" type="Calendar" label="COM_JAB15_CONFERENCES_START_DATE_LBL" description="COM_JAB15_CONFERENCES_START_DATE_DESC"/>
+        <field name="end_date" type="Calendar" label="COM_JAB15_CONFERENCES_END_DATE_LBL" description="COM_JAB15_CONFERENCES_END_DATE_DESC"/>
+        <field name="enabled" type="Published" label="COM_JAB15_CONFERENCES_ENABLED_LBL" description="COM_JAB15_CONFERENCES_ENABLED_DESC"/>
+        <field name="image" type="Media" label="COM_JAB15_CONFERENCES_IMAGE_LBL" description="COM_JAB15_CONFERENCES_IMAGE_DESC"/>
+
+    </fieldset>
+
+    <fieldset name="descriptions" label="COM_JAB15_CONFERENCES_DESCRIPTION_LBL" class="span6">
+
+        <field name="description" type="Editor" label_placement="none"
+               description="COM_JAB15_CONFERENCES_DESCRIPTION_DESC"
+               filter="JComponentHelper::filterText" buttons="true"/>
+
+    </fieldset>
+</form>

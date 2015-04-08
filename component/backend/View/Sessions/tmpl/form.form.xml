@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form validate="true">
+    <fieldset name="scaffolding" label="COM_JAB15_SESSIONS__GROUP_BASIC" class="span6">
+        <field name="title" type="Text" label="COM_JAB15_SESSIONS_TITLE_LBL" description="COM_JAB15_SESSIONS_TITLE_DESC"/>
+        <field name="slug" type="Text" label="COM_JAB15_SESSIONS_SLUG_LBL" description="COM_JAB15_SESSIONS_SLUG_DESC"/>
+        <field name="jab15_conference_id" type="Model" model="conferences" key_field="jab15_conference_id" value_field="title" label="COM_JAB15_SESSIONS_JAB15_CONFERENCE_ID_LBL" description="COM_JAB15_SESSIONS_JAB15_CONFERENCE_ID_DESC"/>
+        <field name="user_id" type="User" label="COM_JAB15_SESSIONS_USER_ID_LBL" description="COM_JAB15_SESSIONS_USER_ID_DESC"/>
+        <field name="room" type="Text" label="COM_JAB15_SESSIONS_ROOM_LBL" description="COM_JAB15_SESSIONS_ROOM_DESC"/>
+        <field name="start_datetime" type="Calendar" label="COM_JAB15_SESSIONS_START_DATETIME_LBL" description="COM_JAB15_SESSIONS_START_DATETIME_DESC"/>
+        <field name="end_datetime" type="Calendar" label="COM_JAB15_SESSIONS_END_DATETIME_LBL" description="COM_JAB15_SESSIONS_END_DATETIME_DESC"/>
+        <field name="enabled" type="Published" label="COM_JAB15_SESSIONS_ENABLED_LBL" description="COM_JAB15_SESSIONS_ENABLED_DESC"/>
+    </fieldset>
+
+    <fieldset name="description" label="COM_JAB15_SESSIONS_DESCRIPTION_LBL" class="span6">
+        <field name="description" type="Editor" label_placement="none"
+               buttons="true"
+        />
+    </fieldset>
+</form>
