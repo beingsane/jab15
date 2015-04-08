@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fof>
+    <common>
+        <container>
+            <option name="componentNamespace">Akeeba\JAB15</option>
+            <option name="factoryClass">FOF30\Factory\MagicFactory</option>
+            <option name="scaffolding">1</option>
+            <option name="saveScaffolding">0</option>
+        </container>
+        <dispatcher>
+            <option name="defaultView">conferences</option>
+        </dispatcher>
+    </common>
+</fof>

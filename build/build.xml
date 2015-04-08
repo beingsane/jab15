@@ -1,0 +1,290 @@
+<?xml version="1.0"?>
+<project name="JaB15Demo" description="JaB15 Demo Component" default="git" >
+	<property file="./build.properties" />
+
+    <!-- Default properties, set only if not already assigned in the build.properties file -->
+	<property name="dirs.root" value="../" />
+	<property name="dirs.component" value="../component" />
+	<property name="dirs.modules" value="../modules" />
+	<property name="dirs.plugins" value="../plugins" />
+	<property name="dirs.documentation" value="../documentation" />
+
+	<property name="dirs.release" value="../release" />
+
+	<property name="dirs.bin" value="bin" />
+	<property name="dirs.bin.libxml" value="${dirs.bin}/libxml" />
+	<property name="dirs.bin.fop" value="${dirs.bin}/fop" />
+	<property name="dirs.bin.dbxsl" value="${dirs.bin}/dbxsl" />
+
+	<property name="version" value="git" />
+
+	<taskdef name="zipme" classname="phingext.ZipmeTask" />
+	<taskdef name="gitversion" classname="phingext.GitVersionTask" />
+
+	<!--
+	====================================================================================================
+	File sets
+	====================================================================================================
+	-->
+
+	<fileset dir="${dirs.component}" id="component">
+		<include name="**" />
+	</fileset>
+
+    <fileset dir="${dirs.release}" id="pkg_fileset">
+        <include name="com_*.zip" />
+        <include name="file_*.zip" />
+        <include name="mod_*.zip" />
+        <include name="plg_*.zip" />
+        <include name="lib_*.zip" />
+        <include name="pkg_*.xml" />
+        <include name="*.txt" />
+        <include name="script.*.php" />
+    </fileset>
+
+    <!--
+    ====================================================================================================
+    Tasks - General
+    ====================================================================================================
+    -->
+	
+	<target name="git" description="Makes a release"
+		depends="new-release,setup-properties,component-package">
+	</target>
+
+	<target name="new-release" description="Create the release directory afresh">
+		<!-- Create the release directory afresh -->
+		<delete dir="${dirs.release}" quiet="true" includeemptydirs="false" />
+		<mkdir dir="${dirs.release}" />
+	</target>
+	
+	<target name="setup-properties" description="Set up version and build properties">
+		<!-- Initialize the build.date timestamp -->
+		<tstamp>
+			<format property="build.date" pattern="%Y-%m-%d" />
+		</tstamp>
+
+		<!-- Initialize the version if it's not set -->
+		<if>
+			<equals arg1="${version}" arg2="git" />
+			<then>
+				<gitversion workingcopy="${dirs.root}" propertyname="git.lastrevision" />
+				<property name="version" value="rev${git.lastrevision}" override="true" />
+			</then>
+		</if>
+	</target>
+
+	<!--
+	====================================================================================================
+	Tasks - Joomla! packages
+	====================================================================================================
+	-->
+	
+	<target name="component-package" depends="package-pkg" />
+
+    <target name="package-com" description="Component package"
+            depends="new-release,setup-properties">
+
+        <zipme basedir="${dirs.component}" destfile="${dirs.release}/com_jab15.zip" includeemptydirs="true">
+            <fileset refid="component" />
+        </zipme>
+    </target>
+
+    <target name="package-fof" description="Copy the FOF 3 installation package to the release directory">
+        <!-- Start by building a dev build of FOF... -->
+        <phing phingfile="build.xml" dir="${dirs.root}/../fof3/build" inheritAll="false" target="git">
+            <property name="dirs.root" value="${dirs.root}/../fof3" />
+        </phing>
+
+        <!-- ...and copy it to the release directory -->
+        <copy todir="${dirs.release}" overwrite="true">
+            <mapper type="regexp" from="^(lib_fof30)(-.*)\.zip$" to="\1.zip" />
+            <fileset dir="${dirs.root}/../fof3/release">
+                <include name="lib_fof30-*.zip" />
+            </fileset>
+        </copy>
+
+        <if>
+            <or>
+                <contains string="${version}" substring="rev" />
+                <contains string="${version}" substring="dev" />
+                <contains string="${version}" substring="git" />
+                <contains string="${version}" substring="svn" />
+            </or>
+            <else>
+                <!-- Get the FOF update XML file -->
+                <httpget url="http://cdn.akeebabackup.com/updates/fof3.xml" dir="${dirs.release}" filename="fof.tmp" followRedirects="true" />
+
+                <!-- Extract the latest FOF version and download location -->
+                <xslt todir="${dirs.release}" style="${phing.dir}/tools/foflatest.xslt">
+                    <mapper type="glob" from="*.tmp" to="*.xml" />
+                    <fileset dir="${dirs.release}">
+                        <include name="fof.tmp" />
+                    </fileset>
+                </xslt>
+                <delete file="${dirs.release}/fof.tmp" />
+                <xmlproperty file="${dirs.release}/fof.xml" />
+                <echo message="Latest FOF version ${latestFof.version} - ${latestFof.download}" />
+
+                <!-- Make sure there is a cache directory, or create it -->
+                <if>
+                    <available file="${dirs.root}/../buildfiles/cache" />
+                    <else>
+                        <mkdir dir="${dirs.root}/../buildfiles/cache" />
+                    </else>
+                </if>
+
+                <!-- Get the FOF version from the cache -->
+                <property name="cache_file_exists" value="0" />
+                <available file="${dirs.root}/../buildfiles/cache/fof.xml" property="cache_file_exists" value="1" />
+
+                <if>
+                    <equals arg1="${cache_file_exists}" arg2="1" />
+                    <then>
+                        <xmlproperty file="${dirs.root}/../buildfiles/cache/fof.xml" keepRoot="false" prefix="fofcache." />
+                    </then>
+                    <else>
+                        <property name="fofcache.version" value="0.0.0" />
+                        <property name="fofcache.download" value="" />
+                    </else>
+                </if>
+
+                <echo message="${latestFof.version} - ${fofcache.version}" />
+
+                <!-- If there is a newer version of FOF available, download it to the cache and update the cached versions -->
+                <php expression="version_compare('${latestFof.version}','${fofcache.version}','gt') ? 1 : 0" returnProperty="has_newer_fof" />
+                <if>
+                    <equals arg1="${has_newer_fof}" arg2="1" />
+                    <then>
+                        <httpget url="${latestFof.download}" dir="${dirs.root}/../buildfiles/cache" filename="lib_fof30.zip" followRedirects="true" />
+                        <copy file="${dirs.release}/fof.xml" todir="${dirs.root}/../buildfiles/cache" />
+                    </then>
+                </if>
+
+                <!-- Copy the cached FOF release -->
+                <copy file="${dirs.root}/../buildfiles/cache/lib_fof30.zip" todir="${dirs.release}" />
+
+                <!-- Clean up -->
+                <delete file="${dirs.release}/fof.xml" />
+            </else>
+        </if>
+    </target>
+
+    <target name="package-pkg" description="Akeeba Subscriptions installation package" depends="new-release, setup-properties, package-com, package-fof">
+        <!-- Create the XML manifest -->
+        <copy file="./templates/pkg_jab15.xml" tofile="${dirs.release}/pkg_jab15.xml" overwrite="true">
+            <filterchain>
+                <replacetokens begintoken="##" endtoken="##">
+                    <token key="DATE" value="${build.date}" />
+                    <token key="VERSION" value="${version}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+
+        <!-- Create the ZIP file -->
+        <property name="package_zip" value="${dirs.release}/pkg_jab15-${version}.zip" />
+
+        <zipme basedir="${dirs.release}" destfile="${package_zip}" includeemptydirs="true">
+            <fileset refid="pkg_fileset" />
+        </zipme>
+
+        <!-- Clean up -->
+        <!--
+        <delete>
+            <fileset refid="pkg_fileset" />
+        </delete>
+        -->
+    </target>
+
+	<!--
+	====================================================================================================
+	Tasks - Documentation
+	====================================================================================================
+	-->
+	
+	<target name="documentation" description="The documentation"
+		depends="doc-j-pdf">
+	</target>
+	
+	<target name="doc-j-pdf" description="Documentation for Joomla! in PDF format">
+		<exec command="xsltproc --nonet --xinclude --novalid --stringparam body.start.indent 0 --stringparam variablelist.term.break.after 1 --stringparam variablelist.term.separator &quot;&quot; --stringparam variablelist.max.termlength 12 --stringparam section.autolabel 1 --stringparam toc.section.depth 5 --stringparam fop1.extensions 1  --output ${dirs.release}/akeebasubs-guide.fo ${dirs.bin.dbxsl}/fo/docbook.xsl ${dirs.documentation}/akeebasubs-guide.xml" dir="${project.basedir}" />
+		<exec command="${dirs.bin.fop}/fop -fo ${dirs.release}/akeebasubs-guide.fo -pdf ${dirs.release}/akeebasubs-guide.pdf" logoutput="true" />
+		<delete file="${dirs.release}/akeebasubs-guide.fo" quiet="yes" />
+	</target>	
+	<!--
+	====================================================================================================
+	Tasks - Project management
+	====================================================================================================
+	-->
+    <target name="lang" description="Generate and upload language files">
+        <exec command="php ./buildlang.php ${application.startdir}/build.properties ${application.startdir}/.. ${version}" dir="buildlang" passthru="true" />
+    </target>
+
+    <target name="link" description="Internal linker">
+        <exec command="php ../buildfiles/tools/link.php ${application.startdir}/.." dir="${application.startdir}/.." passthru="true" />
+        <exec command="php ../buildfiles/tools/langlink.php ${application.startdir}/.." dir="${application.startdir}/.." passthru="true" />
+    </target>
+
+    <target name="relink" description="Project relinker">
+        <exec command="php ../buildfiles/tools/relink.php ${site} ${application.startdir}/.." dir="${application.startdir}/.." passthru="true" />
+        <exec command="php ../buildfiles/tools/relinklang.php ${site} ${application.startdir}/.." dir="${application.startdir}/.." passthru="true" />
+    </target>
+	
+	<target name="release" depends="setup-properties" description="Upload the release to AkeebaBackup.com">
+		<copy file="./templates/release.json" tofile="${dirs.root}/release.json" overwrite="true">
+			<filterchain id="standard-tokens">
+				<replacetokens begintoken="##" endtoken="##">
+					<token key="DATE" value="${build.date}" />
+					<token key="VERSION" value="${version}" />
+					<token key="RELEASEDIR" value="${phing.dir}/${dirs.release}" />
+					<token key="REPODIR" value="${phing.dir}/${dirs.root}" />
+				</replacetokens>
+			</filterchain>
+		</copy>
+
+		<exec command="php ${project.basedir}/../../releasemaker/releasemaker/index.php ${project.basedir}/../release.json" dir="${project.basedir}" passthru="true" />
+
+		<delete file="${dirs.root}/release.json" quiet="yes" />
+	</target>
+
+	<target name="ftpdeploy" depends="git">
+		<gitversion workingcopy="${dirs.root}" propertyname="git.lastrevision" />
+		<echo>Uploading dev release</echo>
+		<ftpdeploy
+			host="${ftp.host}"
+			port="${ftp.port}"
+			username="${ftp.username}"
+			password="${ftp.password}"
+			dir="${ftp.dir}/dev/akeebasubs/${git.lastrevision}"
+			mode="${ftp.mode}"
+			passive="true"
+			level="debug">
+			<fileset dir="${dirs.release}">
+				<include name="pkg_akeebasubs-*.zip"/>
+			</fileset>			
+			<fileset dir="${dirs.root}">
+				<include name="CHANGELOG"/>
+			</fileset>			
+		</ftpdeploy>
+		<echo>All done. Have a cup of coffee and relax :)</echo>
+	</target>
+
+	<target name="docsdeploy">
+		<!-- English manual -->
+		<echo>Uploading Akeeba Subscriptions documentation</echo>
+		<ftpdeploy
+			host="${ftp.host}"
+			port="${ftp.port}"
+			username="${ftp.username}"
+			password="${ftp.password}"
+			dir="${ftp.dir.docs}/akeeba-subscriptions"
+			level="debug">
+			<fileset dir="${dirs.documentation}">
+				<include name="*.xml"/>
+			</fileset>
+		</ftpdeploy>
+	</target>
+	
+	<target name="deployall" depends="ftpdeploy,lang,docsdeploy">
+	</target>
+</project>

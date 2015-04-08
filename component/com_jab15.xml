@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.3.0" type="component" method="upgrade">
+    <name>Jab15</name>
+    <creationDate>2015-04-08</creationDate>
+    <author>Nicholas K. Dionysopoulos</author>
+    <authorEmail>nicholas@akeebabackup.com</authorEmail>
+    <authorUrl>http://www.akeebabackup.com</authorUrl>
+    <copyright>Copyright (c)2015 Nicholas K. Dionysopoulos</copyright>
+    <license>GNU GPL v3 or later</license>
+    <version>1.0</version>
+    <description>FOF 3 Demo component for JaB15</description>
+
+    <!-- Public front end files -->
+    <files folder="frontend">
+        <filename>jab15.php</filename>
+
+        <!-- Not a typo. We need BOTH views and View folders, for different reasons. -->
+        <folder>View</folder>
+        <folder>views</folder>
+    </files>
+
+    <!-- Front end translation files -->
+    <languages folder="language/frontend">
+        <language tag="en-GB">en-GB/en-GB.com_jab15.ini</language>
+    </languages>
+
+    <!-- Administrator back-end section -->
+    <administration>
+        <!-- Administration menu -->
+        <menu view="cpanel">COM_JAB15</menu>
+
+        <!-- Back-end files -->
+        <files folder="backend">
+            <filename>access.xml</filename>
+            <filename>jab15.php</filename>
+            <filename>config.xml</filename>
+            <filename>fof.xml</filename>
+
+            <folder>sql</folder>
+            <folder>View</folder>
+        </files>
+
+        <!-- Back-end translation files -->
+        <languages folder="language/backend">
+            <language tag="en-GB">en-GB/en-GB.com_jab15.ini</language>
+            <language tag="en-GB">en-GB/en-GB.com_jab15.sys.ini</language>
+        </languages>
+    </administration>
+
+    <!-- SQL query files to execute on installation -->
+
+    <install>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/install/mysql/install.sql</file>
+            <file driver="mysql">sql/install/mysql/install.sql</file>
+            <file driver="mysqli" charset="utf8">sql/install/mysql/install.sql</file>
+            <file driver="mysqli">sql/install/mysql/install.sql</file>
+        </sql>
+    </install>
+
+
+    <!-- SQL query files to execute on uninstallation -->
+
+    <uninstall>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/install/mysql/uninstall.sql</file>
+            <file driver="mysql">sql/install/mysql/uninstall.sql</file>
+            <file driver="mysqli" charset="utf8">sql/install/mysql/uninstall.sql</file>
+            <file driver="mysqli">sql/install/mysql/uninstall.sql</file>
+        </sql>
+    </uninstall>
+
+
+    <!-- SQL files to run on update -->
+
+    <update>
+        <schemas>
+            <schemapath type="mysql">sql/update/mysql</schemapath>
+            <schemapath type="mysqli">sql/update/mysql</schemapath>
+        </schemas>
+    </update>
+
+</extension>
