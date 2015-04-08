@@ -24,6 +24,11 @@
         <language tag="en-GB">en-GB/en-GB.com_jab15.ini</language>
     </languages>
 
+    <!-- Media files -->
+    <media destination="com_jab15" folder="media">
+        <folder>css</folder>
+    </media>
+
     <!-- Administrator back-end section -->
     <administration>
         <!-- Administration menu -->

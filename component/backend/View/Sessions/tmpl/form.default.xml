@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form type="browse" show_header="1" show_filters="1" show_pagination="1" norows_placeholder="COM_JAB15_COMMON_NORECORDS">
+<form type="browse" show_header="1" show_filters="1" show_pagination="1" norows_placeholder="COM_JAB15_COMMON_NORECORDS"
+      cssfiles="media://com_jab15/css/common.css">
   <headerset>
     <header name="jab15_session_id" type="RowSelect" label="COM_JAB15_SESSIONS_JAB15_SESSION_ID_LBL" sortable="true" tdwith="20"/>
     <header name="title" type="Searchable" label="COM_JAB15_SESSIONS_TITLE_LBL"/>
