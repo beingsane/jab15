@@ -11,4 +11,16 @@
             <option name="defaultView">conferences</option>
         </dispatcher>
     </common>
+
+    <frontend>
+        <model name="Conferences">
+            <behaviors>Enabled</behaviors>
+        </model>
+        <model name="Sessions">
+            <behaviors>Enabled</behaviors>
+        </model>
+        <model name="Attendances">
+            <behaviors>Own</behaviors>
+        </model>
+    </frontend>
 </fof>
