@@ -20,7 +20,7 @@
             <behaviors merge="1">Enabled</behaviors>
         </model>
         <model name="Sessions">
-            <behaviors merge="1">Enabled</behaviors>
+            <behaviors merge="1">Enabled,PageParametersToState</behaviors>
         </model>
         <model name="Attendances">
             <behaviors merge="1">Own</behaviors>

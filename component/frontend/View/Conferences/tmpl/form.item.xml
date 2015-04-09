@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form validate="true" type="read">
+  <fieldset name="scaffolding" label="COM_JAB15_CONFERENCES__GROUP_BASIC">
+    <field name="title" type="Text" label="COM_JAB15_CONFERENCES_TITLE_LBL"/>
+    <field name="slug" type="Text" label="COM_JAB15_CONFERENCES_SLUG_LBL"/>
+    <field name="start_date" type="Calendar" label="COM_JAB15_CONFERENCES_START_DATE_LBL"/>
+    <field name="end_date" type="Calendar" label="COM_JAB15_CONFERENCES_END_DATE_LBL"/>
+    <field name="image" type="Media" label="COM_JAB15_CONFERENCES_IMAGE_LBL"/>
+    <field name="description" type="Editor" label="COM_JAB15_CONFERENCES_DESCRIPTION_LBL"/>
+    <field name="enabled" type="Published" label="COM_JAB15_CONFERENCES_ENABLED_LBL"/>
+  </fieldset>
+</form>
