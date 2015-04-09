@@ -17,8 +17,10 @@
     <field name="jab15_conference_id" type="Model" model="conferences" key_field="jab15_conference_id" value_field="title" label="COM_JAB15_SESSIONS_JAB15_CONFERENCE_ID_LBL"/>
     <field name="user_id" type="User" label="COM_JAB15_SESSIONS_USER_ID_LBL"/>
     <field name="room" type="Text" label="COM_JAB15_SESSIONS_ROOM_LBL"/>
-    <field name="start_datetime" type="Calendar" label="COM_JAB15_SESSIONS_START_DATETIME_LBL"/>
-    <field name="end_datetime" type="Calendar" label="COM_JAB15_SESSIONS_END_DATETIME_LBL"/>
+    <field name="start_datetime" type="Calendar" label="COM_JAB15_SESSIONS_START_DATETIME_LBL"
+           format="%Y/%m/%d %H:%M"/>
+    <field name="end_datetime" type="Calendar" label="COM_JAB15_SESSIONS_END_DATETIME_LBL"
+           format="%Y/%m/%d %H:%M"/>
     <field name="enabled" type="Actions" label="COM_JAB15_SESSIONS_ENABLED_LBL"/>
   </fieldset>
 </form>
