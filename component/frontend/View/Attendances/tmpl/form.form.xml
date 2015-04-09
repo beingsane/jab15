@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<form validate="true">
-  <fieldset name="scaffolding" label="COM_JAB15_ATTENDANCES__GROUP_BASIC">
-    <field name="jab15_session_id" type="Model" model="sessions" key_field="jab15_session_id" value_field="title" label="COM_JAB15_ATTENDANCES_JAB15_SESSION_ID_LBL" description="COM_JAB15_ATTENDANCES_JAB15_SESSION_ID_DESC"/>
-  </fieldset>
-</form>
