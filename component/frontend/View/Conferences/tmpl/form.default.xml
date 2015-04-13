@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form type="browse"
+	  show_header="1"
+	  show_filters="1"
+	  show_pagination="1"
+	  norows_placeholder="COM_JAB15_COMMON_NORECORDS">
+	<headerset>
+		<header name="title" type="Searchable" label="COM_JAB15_CONFERENCES_TITLE_LBL"/>
+		<header name="image" type="Field" label="COM_JAB15_CONFERENCES_IMAGE_LBL"/>
+		<header name="start_date" type="Field" label="COM_JAB15_CONFERENCES_START_DATE_LBL" sortable="true"/>
+		<header name="end_date" type="Field" label="COM_JAB15_CONFERENCES_END_DATE_LBL" sortable="true"/>
+	</headerset>
+	<fieldset name="items">
+		<field name="title"
+			   type="Sortable"
+			   label="COM_JAB15_CONFERENCES_TITLE_LBL"
+			   url="index.php?option=com_jab15&amp;view=Conference&amp;id=[ITEM:ID]&amp;task=read"/>
+		<field name="image" type="Media" label="COM_JAB15_CONFERENCES_IMAGE_LBL"/>
+		<field name="start_date" type="Calendar" label="COM_JAB15_CONFERENCES_START_DATE_LBL"/>
+		<field name="end_date" type="Calendar" label="COM_JAB15_CONFERENCES_END_DATE_LBL"/>
+	</fieldset>
+</form>

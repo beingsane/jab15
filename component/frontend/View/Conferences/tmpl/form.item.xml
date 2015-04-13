@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form validate="true" type="read" cssfiles="media://com_jab15/css/frontend.css">
+	<fieldset name="header">
+		<field name="image" type="Media" label_placement="none" class="logo"/>
+		<field name="title" type="Text" label_placement="none" class="title"/>
+	</fieldset>
+	<fieldset name="dates" class="form form-horizontal">
+		<field name="start_date" type="Calendar" label="COM_JAB15_CONFERENCES_START_DATE_LBL" disabled="true"/>
+		<field name="end_date" type="Calendar" label="COM_JAB15_CONFERENCES_END_DATE_LBL" disabled="true"/>
+		<field name="view_sessions" type="Button"
+			   class="btn-primary btn-large" icon="icon-info"
+			   onclick="window.location=jQuery(this).attr('href')"
+			   url="index.php?option=com_jab15&amp;view=Sessions&amp;jab15_conference_id=[ITEM:ID]"
+			   text="View sessions"
+			   label_placement="empty"/>
+	</fieldset>
+	<fieldset name="description" class="well">
+		<field name="description" type="Editor" label="COM_JAB15_CONFERENCES_DESCRIPTION_LBL"/>
+	</fieldset>
+</form>
