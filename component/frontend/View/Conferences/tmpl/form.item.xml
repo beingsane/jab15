@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form validate="true" type="read" cssfiles="media://com_jab15/css/frontend.css">
+<form validate="true" type="read" cssfiles="media://com_jab15/css/common.css,media://com_jab15/css/frontend.css">
 	<fieldset name="header">
 		<field name="image" type="Media" label_placement="none" class="logo"/>
 		<field name="title" type="Text" label_placement="none" class="title"/>
