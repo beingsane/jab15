@@ -35,10 +35,3 @@ CREATE TABLE IF NOT EXISTS `#__jab15_sessions` (
   `locked_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`jab15_session_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `#__jab15_attendances` (
-  `jab15_attendance_id` BIGINT(20) NOT NULL AUTO_INCREMENT,
-  `jab15_session_id` BIGINT(20) NOT NULL,
-  `created_by` bigint(20) NOT NULL,
-  PRIMARY KEY (`jab15_attendance_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
