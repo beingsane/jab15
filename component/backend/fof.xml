@@ -11,19 +11,7 @@
         </dispatcher>
 
         <model name="*">
-            <behaviors merge="1">Filters</behaviors>
+            <behaviors>Filters</behaviors>
         </model>
     </common>
-
-    <frontend>
-        <model name="Conferences">
-            <behaviors merge="1">Enabled</behaviors>
-        </model>
-        <model name="Sessions">
-            <behaviors merge="1">Enabled,PageParametersToState</behaviors>
-        </model>
-        <model name="Attendances">
-            <behaviors merge="1">Own</behaviors>
-        </model>
-    </frontend>
 </fof>
